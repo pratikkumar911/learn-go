@@ -1,40 +1,32 @@
 package main
 
-import "fmt"
-
-type Store struct {
-	data map[string]string
-}
-
-func (s *Store) Get(key string) (string, bool){
-	val, ok := s.data[key]
-	return val, ok
-}
-
-func (s *Store) Set(key string, value string) {
-	s.data[key] = value
-}
-
-func (s *Store) Delete(key string) {
-	delete(s.data, key)
-}
-
-func NewStore() *Store {
-	return  &Store{
-		data: make(map[string]string),
-	}
-}
+import (
+	"fmt"
+)
 
 func main() {
-	s := NewStore()
-	s.Set("a", "42")
-	s.Set("b", "43")
+	s := NewStore(2)
 
-	value,_ := s.Get("a")
-	fmt.Println(value)
+	// _ = s.Set("a", "42")
+	// _ = s.Set("b", "43")
 
-	s.Delete("a")
-	_,exists := s.Get("a")
+	// if err := s.Set("b", "12"); err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
 
-	fmt.Println(exists)
+	// val, err := s.Get("d")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	// fmt.Println(val)
+
+	encrypted, err := s.SetKeyWithEncryption("e", "hey there")
+	if err != nil{
+		fmt.Println(err)
+		return
+ 	}
+
+	fmt.Println(encrypted)
 }
