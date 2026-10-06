@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"sort"
 )
 
 type Store struct {
@@ -13,11 +14,23 @@ type Store struct {
 var ErrEmptyKey = errors.New("No key provided")
 var ErrStoreFull = errors.New("Store is full")
 
-func NewStore(maxSize int) *Store {
+func NewKeyValueStore(maxSize int) *Store {
 	return &Store{
 		data:    make(map[string]string),
 		maxSize: maxSize,
 	}
+}
+
+func (s *Store) Keys() []string {
+	keys := make([]string, 0, len(s.data))
+
+	for key := range s.data {
+		keys = append(keys, key)
+	}
+
+	sort.Strings(keys)
+
+	return keys
 }
 
 

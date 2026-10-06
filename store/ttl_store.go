@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"time"
 )
 
@@ -50,6 +51,22 @@ func (t *TTLStore) Get(key string) (string, error){
 	return entry.value, nil
 }
 
-func (t *TTLStore) delete(key string) { delete(t.data, key) }
+func (t *TTLStore) Delete(key string) {
+	delete(t.data, key)
+}
+
+func (t *TTLStore) Keys() []string {
+	keys := make([]string, 0, len(t.data))
+	for key := range t.data {
+		if !time.Now().After(t.data[key].expiresAt) {
+			keys = append(keys, key)
+		} else {
+			delete(t.data, key)
+		}
+	}
+
+	sort.Strings(keys)
+	return keys
+}
 
 
