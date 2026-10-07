@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"time"
 	"encoding/base64"
+	"fmt"
 )
 
 type Storer interface {
@@ -28,7 +27,7 @@ func SetKeyWithEncryption(store Storer, key, val string) (string, error) {
 }
 
 func main() {
-	keyValueStore := NewKeyValueStore(2)
+	// keyValueStore := NewKeyValueStore(2)
 
 	// _ = s.Set("a", "42")
 	// _ = s.Set("b", "43")
@@ -45,21 +44,32 @@ func main() {
 
 	// fmt.Println(val)
 
-	encrypted, err := SetKeyWithEncryption(keyValueStore, "e", "hey there")
+	// encrypted, err := SetKeyWithEncryption(keyValueStore, "e", "hey there")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+
+	// fmt.Println(encrypted)
+
+	// ttlStore := NewTTLStore(time.Second * 2)
+
+	// encryptedTTLValue, err := SetKeyWithEncryption(ttlStore, "e", "hey there")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+
+	// fmt.Println(encryptedTTLValue)
+
+	plain := NewKeyValueStore(20)
+	logger := NewLogginMidleware(plain)
+
+	encrypted, err := SetKeyWithEncryption(logger, "a", "hey there")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	fmt.Println(encrypted)
-
-	ttlStore := NewTTLStore(time.Second * 2)
-
-	encryptedTTLValue, err := SetKeyWithEncryption(ttlStore, "e", "hey there")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(encryptedTTLValue)
 }
