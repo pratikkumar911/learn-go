@@ -4,38 +4,61 @@ import (
 	"fmt"
 )
 
-type Shape interface {
-	Area() float64
+func typeCheck(value any){
+	switch value.(type){
+	case int:
+		fmt.Println("int")
+	case string:
+		fmt.Println("string")
+	default:
+		fmt.Println("unknown")
+	}
 }
 
-type Measurable interface {
-	Perimeter() float64
+// func printValue(value any){
+// 	fmt.Println(value)
+// }
+
+func main() {
+	mixedSlices := []interface{}{23,"cas",2.345}
+
+	for _, value:= range mixedSlices {
+		typeCheck(value)
+	}
 }
 
-type Geometry interface {
-	Shape
-	Measurable
-}
+// type Shape interface {
+// 	Area() float64
+// }
 
-type Rectangle struct {
-	width, height float64
-}
+// type Measurable interface {
+// 	Perimeter() float64
+// }
 
-func (r Rectangle) Area() float64 {
-	return r.width * r.height
-}
+// type Geometry interface {
+// 	Shape
+// 	Measurable
+// }
 
-func (r Rectangle) Perimeter() float64{
-	return 2*(r.width + r.height)
-}
+// type Rectangle struct {
+// 	width, height float64
+// }
 
-func describeShape(g Geometry){
-	fmt.Println(g.Area())
-	fmt.Println(g.Perimeter())
-}
+// func (r Rectangle) Area() float64 {
+// 	return r.width * r.height
+// }
 
-func main(){
-	rect := Rectangle{width: 5, height: 4}
+// func (r Rectangle) Perimeter() float64{
+// 	return 2*(r.width + r.height)
+// }
 
-	describeShape(rect)
-}
+// func describeShape(g Geometry){
+// 	fmt.Println(g.Area())
+// 	fmt.Println(g.Perimeter())
+// }
+
+// func main(){
+// 	rect := Rectangle{width: 5, height: 4}
+
+// 	describeShape(rect)
+// }
